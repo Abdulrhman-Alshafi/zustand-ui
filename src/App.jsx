@@ -1,19 +1,18 @@
 import { useEffect } from "react";
 import {
-  MoonIcon as Moon,
-  SunIcon as Sun,
   PlusIcon as Plus,
   MinusIcon as Minus,
   ResetIcon as RotateCcw,
 } from "@radix-ui/react-icons";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import * as Switch from "@radix-ui/react-switch";
-import { useBearStore } from "./store/useBearStore";
+import { useCountStore } from "./store/useCountStore";
 import { useThemeStore } from "./store/useThemeStore";
+import Footer from "./component/Footer";
+import Header from "./component/Header";
 
 function App() {
-  const { bears, increase, decrease, reset } = useBearStore();
-  const { theme, toggleTheme } = useThemeStore();
+  const { count, increase, decrease, reset } = useCountStore();
+  const { theme } = useThemeStore();
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
@@ -24,33 +23,10 @@ function App() {
       }`}
     >
       <div className="container mx-auto max-w-4xl px-4 py-16">
-        {/* Header + Theme Switch */}
-        <header className="flex items-center justify-between mb-16">
-          <h1 className="text-4xl font-bold tracking-tight">
-            React + Zustand + Radix + Tailwind
-          </h1>
-
-          <div className="flex items-center gap-3">
-            <Sun className="w-5 h-5" />
-            <Switch.Root
-              checked={theme === "dark"}
-              onCheckedChange={toggleTheme}
-              className={`w-11 h-6 rounded-full relative transition-colors ${
-                theme === "dark" ? "bg-blue-600" : "bg-gray-300"
-              }`}
-            >
-              <Switch.Thumb
-                className={`block w-5 h-5 bg-white rounded-full transition-transform translate-x-0.5 will-change-transform data-[state=checked]:translate-x-5`}
-              />
-            </Switch.Root>
-            <Moon className="w-5 h-5" />
-          </div>
-        </header>
-
-        {/* Main Card */}
+        <Header />
         <main className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-10">
           <div className="text-center">
-            <h2 className="text-6xl font-bold mb-8">Bears {bears} Bears</h2>
+            <h2 className="text-6xl font-bold mb-8"> {count} </h2>
 
             <div className="flex items-center justify-center gap-6">
               <Tooltip.Provider>
@@ -64,7 +40,7 @@ function App() {
                     </button>
                   </Tooltip.Trigger>
                   <Tooltip.Content className="bg-gray-900 text-white text-sm px-3 py-2 rounded-md">
-                    Remove a bear
+                    Remove
                     <Tooltip.Arrow className="fill-gray-900" />
                   </Tooltip.Content>
                 </Tooltip.Root>
@@ -88,7 +64,7 @@ function App() {
                     </button>
                   </Tooltip.Trigger>
                   <Tooltip.Content className="bg-gray-900 text-white text-sm px-3 py-2 rounded-md">
-                    Add a bear
+                    Add
                     <Tooltip.Arrow className="fill-gray-900" />
                   </Tooltip.Content>
                 </Tooltip.Root>
@@ -96,10 +72,7 @@ function App() {
             </div>
           </div>
         </main>
-
-        <footer className="mt-16 text-center text-sm text-gray-500">
-          JS version • {new Date().getFullYear()}
-        </footer>
+        <Footer />
       </div>
     </div>
   );
